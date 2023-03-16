@@ -18,7 +18,7 @@ class NoteAPITest {
 
     @BeforeEach
     fun setup() {
-        learnKotlin = Note("Learning", 5, "college", false)
+        learnKotlin = Note("Learning Kotlin", 5, "college", false)
         summerHoliday = Note("Summer Holiday to France", 1, "Holiday", false)
         codeApp = Note("Code App", 4, "Work", false)
         testApp = Note("Test App", 4, "Work", false)
@@ -59,5 +59,22 @@ class NoteAPITest {
         assertTrue(emptyNotes!!.add(newNote))
         assertEquals(1, emptyNotes!!.numberOfNotes())
         assertEquals(newNote, emptyNotes!!.findNote(emptyNotes!!.numberOfNotes() - 1))
+    }
+
+    @Test
+    fun `listAllNotes returns No Notes Stored message when ArrayList is empty`(){
+        assertEquals(0, emptyNotes!!.numberOfNotes())
+        assertTrue(emptyNotes!!.listAllNotes().lowercase().contains("no notes"))
+    }
+
+    @Test
+    fun `listAllNotes returns Notes when ArrayList has notes stored`() {
+        assertEquals(5, populatedNotes!!.numberOfNotes())
+        val notesString = populatedNotes!!.listAllNotes().lowercase()
+        assertTrue(notesString.contains("learning kotlin"))
+        assertTrue(notesString.contains("code app"))
+        assertTrue(notesString.contains("test app"))
+        assertTrue(notesString.contains("swim"))
+        assertTrue(notesString.contains("summer holiday"))
     }
 }
