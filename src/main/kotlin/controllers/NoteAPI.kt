@@ -42,8 +42,8 @@ class NoteAPI {
             if(!notes[i].isNoteArchived)
                 listOfActiveNotes += "${i}: ${notes[i]} \n"
         }
-        return if (listOfActiveNotes.isNullOrBlank()) {
-            "No currently active notes"
+        return if (listOfActiveNotes.isBlank()) {
+            "Currently no active notes"
         } else listOfActiveNotes
     }
 
@@ -53,7 +53,7 @@ class NoteAPI {
             if(notes[i].isNoteArchived)
                 listOfArchivedNotes += "${i}: ${notes[i]} \n"
         }
-        return if (listOfArchivedNotes.isNullOrBlank()) {
+        return if (listOfArchivedNotes.isBlank()) {
             "No archived notes"
         } else listOfArchivedNotes
     }
@@ -73,7 +73,7 @@ class NoteAPI {
         //helper method to determine how many active notes there are
         var numberOfActiveNotes = 0
         for (i in notes.indices) {
-            if(notes[i].isNoteArchived)
+            if(!notes[i].isNoteArchived)
                 numberOfActiveNotes += 1
         }
         return numberOfActiveNotes
