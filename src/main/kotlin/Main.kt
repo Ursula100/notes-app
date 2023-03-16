@@ -65,7 +65,7 @@ fun updateNote(){
 }
 
 fun deleteNote(){
-    logger.info { "deleteNote() function invoked" }
+    logger.info { "addNote() function invoked" }
 }
 
 fun exitApp(){
