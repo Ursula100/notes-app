@@ -14,9 +14,12 @@ class NoteAPITest {
     private var codeApp: Note? = null
     private var testApp: Note? = null
     private var swim: Note? = null
+    private var swimP2: Note? = null
+    private var petTraining: Note? = null
     private var testArchived: Note? = null
     private var testArchived2: Note? = null
     private var populatedNotes: NoteAPI? = NoteAPI()
+    private var populatedNoPriority2Notes: NoteAPI? = NoteAPI()
     private var emptyNotes: NoteAPI? = NoteAPI()
     private var populatedNoArchivedNotes: NoteAPI? = NoteAPI()
     private var populatedNoActiveNotes: NoteAPI? = NoteAPI()
@@ -31,6 +34,8 @@ class NoteAPITest {
         swim = Note("Swim - Pool", 3, "Hobby", false)
         testArchived = Note("Test Archived", 3, "College", true)
         testArchived2 = Note("Test Archived 2", 5, "Work", true)
+        swimP2 = Note("Swim 2", 2, "Lessons", false)
+        petTraining = Note( "pet puppy", 2, "Lessons", false)
 
         //adding all Notes to the populatedNotes
         populatedNotes!!.add(learnKotlin!!)
@@ -40,6 +45,8 @@ class NoteAPITest {
         populatedNotes!!.add(swim!!)
         populatedNotes!!.add(testArchived!!)
         populatedNotes!!.add(testArchived2!!)
+        populatedNotes!!.add(swimP2!!)
+        populatedNotes!!.add(petTraining!!)
 
         //adding all Notes with isArchived set as false to the populatedNoArchivedNotes
         populatedNoArchivedNotes!!.add(learnKotlin!!)
@@ -47,10 +54,22 @@ class NoteAPITest {
         populatedNoArchivedNotes!!.add(codeApp!!)
         populatedNoArchivedNotes!!.add(testApp!!)
         populatedNoArchivedNotes!!.add(swim!!)
+        populatedNoArchivedNotes!!.add(swimP2!!)
+        populatedNoArchivedNotes!!.add(petTraining!!)
 
         //adding all Notes with isArchived set as true to the populatedNoActiveNotes
         populatedNoActiveNotes!!.add(testArchived!!)
         populatedNoActiveNotes!!.add(testArchived2!!)
+
+        //
+        populatedNoPriority2Notes!!.add(learnKotlin!!)
+        populatedNoPriority2Notes!!.add(summerHoliday!!)
+        populatedNoPriority2Notes!!.add(codeApp!!)
+        populatedNoPriority2Notes!!.add(testApp!!)
+        populatedNoPriority2Notes!!.add(swim!!)
+        populatedNoPriority2Notes!!.add(testArchived!!)
+        populatedNoPriority2Notes!!.add(testArchived2!!)
+
     }
 
     @AfterEach
@@ -60,12 +79,15 @@ class NoteAPITest {
         codeApp = null
         testApp = null
         swim = null
+        petTraining = null
+        swimP2 = null
         testArchived = null
         testArchived2 = null
         populatedNotes = null
         emptyNotes = null
         populatedNoActiveNotes = null
         populatedNoArchivedNotes = null
+        populatedNoPriority2Notes = null
     }
 
     @Nested
@@ -73,9 +95,9 @@ class NoteAPITest {
         @Test
         fun `adding a Note to a populated list adds to ArrayList`() {
             val newNote = Note("Study Lambdas", 1, "college", false)
-            assertEquals(7, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             assertTrue(populatedNotes!!.add(newNote))
-            assertEquals(8, populatedNotes!!.numberOfNotes())
+            assertEquals(10, populatedNotes!!.numberOfNotes())
             assertEquals(newNote, populatedNotes!!.findNote(populatedNotes!!.numberOfNotes() - 1))
         }
 
@@ -99,7 +121,7 @@ class NoteAPITest {
 
         @Test
         fun `listAllNotes returns Notes when ArrayList has notes stored`() {
-            assertEquals(7, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             val notesString = populatedNotes!!.listAllNotes().lowercase()
             assertTrue(notesString.contains("learning kotlin"))
             assertTrue(notesString.contains("code app"))
@@ -108,6 +130,8 @@ class NoteAPITest {
             assertTrue(notesString.contains("summer holiday"))
             assertTrue(notesString.contains("test archived"))
             assertTrue(notesString.contains("test archived 2"))
+            assertTrue(notesString.contains("swim 2"))
+            assertTrue(notesString.contains("pet puppy"))
         }
     }
 
@@ -151,14 +175,40 @@ class NoteAPITest {
 
         @Test
         fun `listActiveNotes returns Notes that have isArchived set to false when ArrayList has notes with mixed isArchived values stored`() {
-            assertEquals(5, populatedNotes!!.numberOfActiveNotes())
+            assertEquals(7, populatedNotes!!.numberOfActiveNotes())
             val activeNoteString = populatedNotes!!.listActiveNotes().lowercase()
             assertTrue(activeNoteString.contains("learning kotlin"))
             assertTrue(activeNoteString.contains("code app"))
             assertTrue(activeNoteString.contains("test app"))
             assertTrue(activeNoteString.contains("swim"))
             assertTrue(activeNoteString.contains("summer holiday"))
+            assertTrue(activeNoteString.contains("swim 2"))
+            assertTrue(activeNoteString.contains("pet puppy"))
         }
+    }
+
+    @Nested
+    inner class ListNotesByPriority{
+        @Test
+        fun `ListNotesBySelectedPriority return No notes of priority $priority when ArrayList has no notes stored`(){
+            assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
+            assertEquals(0, emptyNotes!!.numberOfNotesByPriority(5))
+            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes of priority"))
+            assertTrue(emptyNotes!!.listNotesBySelectedPriority(5).lowercase().contains("no notes of priority"))
+        }
+        @Test
+        fun `ListNotesBySelectedPriority return No notes of priority $priority when ArrayList has no notes of the specified priority stored`(){
+            assertEquals(0, populatedNoPriority2Notes!!.numberOfNotesByPriority(2))
+            assertTrue(populatedNoPriority2Notes!!.listNotesBySelectedPriority(2).lowercase().contains("no notes of priority"))
+        }
+
+        @Test
+        fun `listNotesBySelectedPriority returns notes of selected priority when populated ArrayList contains notes of the specified priority`(){
+            assertEquals(2, populatedNotes!!.numberOfNotesByPriority(2))
+            assertTrue(populatedNotes!!.listNotesBySelectedPriority(2).lowercase().contains("swim 2"))
+            assertTrue(populatedNotes!!.listNotesBySelectedPriority(2).lowercase().contains("pet puppy"))
+        }
+
     }
 
 }
