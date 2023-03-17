@@ -118,4 +118,25 @@ class NoteAPI {
         return numberOfNotes
     }
 
+    fun listNotesOfTitle(title: String) : String{
+        var listOfNotes = ""
+        for (i in notes.indices) {
+            if(notes[i].noteTitle.lowercase().contains(title.lowercase()))
+                listOfNotes += "${i}: ${notes[i]} \n"
+        }
+        return if (listOfNotes.isBlank()) {
+            "No notes with title $title"
+        } else listOfNotes
+    }
+
+    fun numberOfNotesOfTitle(title: String): Int{
+        var numberOfNotes = 0
+        for (i in notes.indices) {
+            if(notes[i].noteTitle.lowercase().contains(title.lowercase()))
+                numberOfNotes += 1
+        }
+        return numberOfNotes
+    }
+
+
 }
