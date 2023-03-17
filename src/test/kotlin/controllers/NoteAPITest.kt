@@ -197,7 +197,7 @@ class NoteAPITest {
             assertTrue(emptyNotes!!.listNotesBySelectedPriority(5).lowercase().contains("no notes of priority"))
         }
         @Test
-        fun `ListNotesBySelectedPriority return No notes of priority $priority when ArrayList has no notes of the specified priority stored`(){
+        fun `ListNotesBySelectedPriority return No Notes Of Priority $priority when ArrayList has no notes of the specified priority stored`(){
             assertEquals(0, populatedNoPriority2Notes!!.numberOfNotesByPriority(2))
             assertTrue(populatedNoPriority2Notes!!.listNotesBySelectedPriority(2).lowercase().contains("no notes of priority"))
         }
@@ -209,6 +209,28 @@ class NoteAPITest {
             assertTrue(populatedNotes!!.listNotesBySelectedPriority(2).lowercase().contains("pet puppy"))
         }
 
+    }
+
+    @Nested
+    inner class ListNotesOfCategory {
+       @Test
+       fun `listNotesOfSelectedCategory returns No Note of Category $category when ArrayList has no notes stored` (){
+           assertEquals(0, emptyNotes!!.numberOfNotesOfCategory("Lessons"))
+           assertTrue(emptyNotes!!.listNotesOfSelectedCategory("Lessons").lowercase().contains("no notes of category"))
+       }
+
+        @Test
+        fun `listNotesBySelectedCategory return No Notes Of Category $category when ArrayList has no notes of the specified category stored`(){
+            assertEquals(0, populatedNotes!!.numberOfNotesOfCategory("Lab"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedCategory("Lab").lowercase().contains("no notes of category"))
+        }
+
+        @Test
+        fun `listNotesBySelectedCategory returns notes of selected category when populated ArrayList contains notes of the specified category`(){
+            assertEquals(2, populatedNotes!!.numberOfNotesOfCategory("Lessons"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedCategory("Lessons").lowercase().contains("swim 2"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedCategory("Lessons").lowercase().contains("pet puppy"))
+        }
     }
 
 }
