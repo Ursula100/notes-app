@@ -46,6 +46,15 @@ class NoteAPI {
             "Currently no active notes"
         } else listOfActiveNotes
     }
+    fun numberOfActiveNotes(): Int {
+        //helper method to determine how many active notes there are
+        var numberOfActiveNotes = 0
+        for (i in notes.indices) {
+            if(!notes[i].isNoteArchived)
+                numberOfActiveNotes += 1
+        }
+        return numberOfActiveNotes
+    }
 
     fun listArchivedNotes(): String {
         var listOfArchivedNotes = ""
@@ -68,16 +77,6 @@ class NoteAPI {
         return numberOfArchivedNotes
     }
 
-    fun numberOfActiveNotes(): Int {
-        //helper method to determine how many active notes there are
-        var numberOfActiveNotes = 0
-        for (i in notes.indices) {
-            if(!notes[i].isNoteArchived)
-                numberOfActiveNotes += 1
-        }
-        return numberOfActiveNotes
-    }
-
     fun listNotesBySelectedPriority(priority: Int): String {
         var listOfNotes = ""
         for (i in notes.indices) {
@@ -98,4 +97,25 @@ class NoteAPI {
         }
         return numberOfNotes
     }
+
+    fun listNotesOfSelectedCategory(category: String) : String {
+        var listOfNotes = ""
+        for (i in notes.indices) {
+            if(notes[i].noteCategory == category)
+                listOfNotes += "${i}: ${notes[i]} \n"
+        }
+        return if (listOfNotes.isBlank()) {
+            "No notes of category $category"
+        } else listOfNotes
+    }
+
+    fun numberOfNotesOfCategory(category: String) : Int{
+        var numberOfNotes = 0
+        for (i in notes.indices) {
+            if(notes[i].noteCategory==category)
+                numberOfNotes += 1
+        }
+        return numberOfNotes
+    }
+
 }
