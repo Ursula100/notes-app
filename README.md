@@ -3,16 +3,11 @@ A menu-driven console app for manages notes.
 
 ## What does it do ?
 Notes-App permits operations such as adding, listing, updating, and deleting notes.
-Also incudes JUnit test
-
-### Listing
-- List all notes
-- List archived motes
-- List active notes
-- List notes of specified priority
-- List notes of specified category
-- List notes with specified title
+It has a menu and subMenu.
 
 ## What Does it Include
-### Kotlin Classes and files
-### Dependencies and Logger
+-  Kotlin Classes, files and interfaces
+- Dependencies and a kottlin Logger
+- Junit tests for functionalities
+- CRUD methods
+- Data persistence: JSON and XML format.
