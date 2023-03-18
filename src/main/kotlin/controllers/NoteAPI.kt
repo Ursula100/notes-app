@@ -30,9 +30,9 @@ class NoteAPI(serializerType: Serializer){
     }
 
     fun findNote(index: Int): Note? {
-        return if (isValidListIndex(index, notes)){
-            notes[index]
-        } else null
+        return if (isValidListIndex(index, notes))
+                   notes[index]
+               else null
     }
 
     //utility method to determine if an index is valid in list.
@@ -53,12 +53,10 @@ class NoteAPI(serializerType: Serializer){
 
     fun numberOfActiveNotes(): Int {
         //helper method to determine how many active notes there are
-        var numberOfActiveNotes = 0
-        for (i in notes.indices) {
-            if(!notes[i].isNoteArchived)
-                numberOfActiveNotes += 1
-        }
-        return numberOfActiveNotes
+       return notes.stream()
+                   .filter{note: Note -> !note.isNoteArchived}
+                   .count()
+                   .toInt()
     }
 
     fun listArchivedNotes(): String {
@@ -74,12 +72,10 @@ class NoteAPI(serializerType: Serializer){
 
     fun numberOfArchivedNotes(): Int {
         //helper method to determine how many archived notes there are
-        var numberOfArchivedNotes = 0
-        for (i in notes.indices) {
-            if(notes[i].isNoteArchived)
-                numberOfArchivedNotes += 1
-        }
-        return numberOfArchivedNotes
+     return notes.stream()
+                 .filter{note: Note -> note.isNoteArchived}
+                 .count()
+                 .toInt()
     }
 
     fun listNotesBySelectedPriority(priority: Int): String {
@@ -95,12 +91,10 @@ class NoteAPI(serializerType: Serializer){
 
     fun numberOfNotesByPriority(priority: Int): Int {
     //helper method to determine how many notes there are of a specific priority
-        var numberOfNotes = 0
-        for (i in notes.indices) {
-            if(notes[i].notePriority==priority)
-                numberOfNotes += 1
-        }
-        return numberOfNotes
+          return notes.stream()
+                      .filter{note: Note -> note.notePriority == priority}
+                      .count()
+                      .toInt()
     }
 
     fun listNotesOfSelectedCategory(category: String) : String {
@@ -115,12 +109,10 @@ class NoteAPI(serializerType: Serializer){
     }
 
     fun numberOfNotesOfCategory(category: String) : Int{
-        var numberOfNotes = 0
-        for (i in notes.indices) {
-            if(notes[i].noteCategory==category)
-                numberOfNotes += 1
-        }
-        return numberOfNotes
+        return notes.stream()
+            .filter{note: Note -> note.noteCategory == category}
+            .count()
+            .toInt()
     }
 
     fun listNotesOfTitle(title: String) : String{
@@ -135,12 +127,10 @@ class NoteAPI(serializerType: Serializer){
     }
 
     fun numberOfNotesOfTitle(title: String): Int{
-        var numberOfNotes = 0
-        for (i in notes.indices) {
-            if(notes[i].noteTitle.lowercase().contains(title.lowercase()))
-                numberOfNotes += 1
-        }
-        return numberOfNotes
+        return notes.stream()
+            .filter{note: Note -> note.noteTitle.equals(title, true)}
+            .count()
+            .toInt()
     }
 
     fun deleteNote(indexToDelete: Int): Note? {
