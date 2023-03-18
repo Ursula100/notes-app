@@ -13,17 +13,11 @@ class NoteAPI(serializerType: Serializer){
         return notes.add(note)
     }
 
-    fun listAllNotes(): String {
-        return if (notes.isEmpty()) {
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                listOfNotes += "${i}: ${notes[i]} \n"
-            }
-            listOfNotes
-        }
-    }
+    fun listAllNotes(): String =
+        if  (notes.isEmpty()) "No notes stored"
+        else notes.joinToString (separator = "\n") { note ->
+            notes.indexOf(note).toString() + ": " + note.toString() }
+
 
     fun numberOfNotes(): Int {
         return notes.size
@@ -128,7 +122,7 @@ class NoteAPI(serializerType: Serializer){
 
     fun numberOfNotesOfTitle(title: String): Int{
         return notes.stream()
-            .filter{note: Note -> note.noteTitle.equals(title, true)}
+            .filter{note: Note -> note.noteTitle.contains(title, true)}
             .count()
             .toInt()
     }
