@@ -164,9 +164,9 @@ class NoteAPITest {
     @Nested
     inner class ListActiveNotes {
         @Test
-        fun `listActiveNotes returns Currently No Active Notes when ArrayList is empty`() {
+        fun `listActiveNotes No notes stored Notes when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfActiveNotes())
-            assertTrue(emptyNotes!!.listActiveNotes().lowercase().contains("currently no active notes"))
+            assertTrue(emptyNotes!!.listActiveNotes().lowercase().contains("no notes stored"))
         }
 
         @Test
