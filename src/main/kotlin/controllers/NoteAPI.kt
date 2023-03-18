@@ -62,16 +62,11 @@ class NoteAPI(serializerType: Serializer){
                  .toInt()
     }
 
-    fun listNotesBySelectedPriority(priority: Int): String {
-        var listOfNotes = ""
-        for (i in notes.indices) {
-            if(notes[i].notePriority==priority)
-                listOfNotes += "${i}: ${notes[i]} \n"
-        }
-        return if (listOfNotes.isBlank()) {
-            "No notes of priority $priority"
-        } else listOfNotes
-    }
+    fun listNotesBySelectedPriority(priority: Int): String =
+        if  (notes.isEmpty()) "No notes stored"
+        else notes.filter { note: Note -> note.notePriority == priority }
+            .joinToString (separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString() }
+            .ifBlank {"Currently no notes of priority $priority"}
 
     fun numberOfNotesByPriority(priority: Int): Int {
     //helper method to determine how many notes there are of a specific priority

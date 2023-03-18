@@ -195,8 +195,8 @@ class NoteAPITest {
         fun `ListNotesBySelectedPriority return No notes of priority $priority when ArrayList has no notes stored`(){
             assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
             assertEquals(0, emptyNotes!!.numberOfNotesByPriority(5))
-            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes of priority"))
-            assertTrue(emptyNotes!!.listNotesBySelectedPriority(5).lowercase().contains("no notes of priority"))
+            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes stored"))
+            assertTrue(emptyNotes!!.listNotesBySelectedPriority(5).lowercase().contains("no notes stored"))
         }
         @Test
         fun `ListNotesBySelectedPriority return No Notes Of Priority $priority when ArrayList has no notes of the specified priority stored`(){
