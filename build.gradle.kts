@@ -20,6 +20,9 @@ dependencies {
     //For Streaming to XML and JSON
     implementation("com.thoughtworks.xstream:xstream:1.4.18")
     implementation("org.codehaus.jettison:jettison:1.4.1")
+    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    //implementation("org.yaml:snakeyaml:2.0")
+    //implementation("com.charleskorn.kaml:kaml:0.46.0")
 
 }
 

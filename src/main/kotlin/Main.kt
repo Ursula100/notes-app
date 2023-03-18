@@ -101,7 +101,7 @@ fun addNote(){
 fun listAllNotes(){
     //logger.info { "listNotes() function invoked" }
     if(noteAPI.numberOfNotes()>0)
-        print("There are ${noteAPI.numberOfNotes()} notes stored \n")
+        print("There are : ${noteAPI.numberOfNotes()} notes stored \n")
     println(noteAPI.listAllNotes())
 }
 
