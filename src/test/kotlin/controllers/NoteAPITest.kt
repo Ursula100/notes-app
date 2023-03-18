@@ -238,22 +238,22 @@ class NoteAPITest {
     @Nested
     inner class ListNotesOfTitle {
         @Test
-        fun `listNotesOfTitle returns No Notes With Title $title when ArrayList has no notes stored` () {
+        fun `listNotesOfTitle returns No Notes Stored when ArrayList has no notes stored` () {
             assertEquals(0, emptyNotes!!.numberOfNotesOfTitle("Pet Puppy"))
-            assertTrue(emptyNotes!!.listNotesOfTitle("Pet Puppy").lowercase().contains("no notes with title"))
+            assertTrue(emptyNotes!!.searchNotesByTitle("Pet Puppy").lowercase().contains("no notes stored"))
         }
 
         @Test
-        fun `listNotesOfTitle returns No Notes With Title $title when ArrayList has no notes of with specified title stored`(){
+        fun `listNotesOfTitle returns Currently No Notes With Title $title when ArrayList has no notes of with specified title stored`(){
             assertEquals(0, populatedNotes!!.numberOfNotesOfTitle("Titled Note"))
-            assertTrue(populatedNotes!!.listNotesOfTitle("Titled Note").lowercase().contains("no notes with title"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Titled Note").lowercase().contains("currently no notes with title: \'titled note\'"))
         }
 
         @Test
         fun `listNotesOfTitle returns notes with specified title when populated ArrayList contains notes with specified title`(){
             assertEquals(2, populatedNotes!!.numberOfNotesOfTitle("Test Archived"))
-            assertTrue(populatedNotes!!.listNotesOfTitle("Test Archived").lowercase().contains("test archived"))
-            assertTrue(populatedNotes!!.listNotesOfTitle("Test Archived").lowercase().contains("test archived 2"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived 2"))
         }
     }
 

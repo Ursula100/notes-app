@@ -90,16 +90,11 @@ class NoteAPI(serializerType: Serializer){
             .toInt()
     }
 
-    fun listNotesOfTitle(title: String) : String{
-        var listOfNotes = ""
-        for (i in notes.indices) {
-            if(notes[i].noteTitle.lowercase().contains(title.lowercase()))
-                listOfNotes += "${i}: ${notes[i]} \n"
-        }
-        return if (listOfNotes.isBlank()) {
-            "No notes with title $title"
-        } else listOfNotes
-    }
+    fun searchNotesByTitle(title: String) : String =
+        if  (notes.isEmpty()) "No notes stored"
+        else notes.filter { note: Note -> note.noteTitle.contains(title,true) }
+            .joinToString (separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString() }
+            .ifBlank {"Currently no notes with title: \'$title\'"}
 
     fun numberOfNotesOfTitle(title: String): Int{
         return notes.stream()
