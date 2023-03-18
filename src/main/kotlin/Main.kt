@@ -25,7 +25,7 @@ fun mainMenu() : Int {
          > ----------------------------------
          > | NOTE MENU                      |
          > |   1) Add a note                |
-         > |   2) List all notes            |
+         > |   2) List notes                |
          > |   3) Update a note             |
          > |   4) Delete a note             |
          > |   5) Archive a note            |
@@ -37,17 +37,48 @@ fun mainMenu() : Int {
          > ==>> """.trimMargin(">"))
 }
 
+fun subMenu(): Int{
+    return readNextInt(""" 
+         > ----------------------------------
+         > |        NOTE KEEPER APP         |
+         > ----------------------------------
+         > | NOTE SUBMENU                   |
+         > |   1) List all notes            |
+         > |   2) List active notes         |
+         > |   3) List archived notes       |
+         > |   4) List notes by priority    |
+         > |   5) List notes by category    |
+         > ----------------------------------
+         > |   0) Back to main menu         |
+         > ----------------------------------
+         > ==>> """.trimMargin(">"))
+}
+
 fun runMenu() {
     do {
         when (val option = mainMenu()) {
             1  -> addNote()
-            2  -> listNotes()
+            2  -> runSubMenu()
             3  -> updateNote()
             4  -> deleteNote()
             5  -> archiveNote()
             20 -> save()
             21 -> load()
             0  -> exitApp()
+            else -> println("Invalid option entered: $option")
+        }
+    } while (true)
+}
+
+fun runSubMenu(){
+    do {
+        when (val option = subMenu()) {
+            1  -> listAllNotes()
+            2  -> listActiveNotes()
+            3  -> listArchivedNotes()
+            4  -> listNotesByPriority()
+            5  -> listNotesByCategory()
+            0  -> runMenu()
             else -> println("Invalid option entered: $option")
         }
     } while (true)
@@ -67,14 +98,42 @@ fun addNote(){
         println("Add Failed")
     }
 }
-fun listNotes(){
+fun listAllNotes(){
     //logger.info { "listNotes() function invoked" }
+    if(noteAPI.numberOfNotes()>0)
+        print("There are ${noteAPI.numberOfNotes()} notes stored \n")
     println(noteAPI.listAllNotes())
+}
+
+fun listActiveNotes(){
+    if(noteAPI.numberOfActiveNotes()>0)
+        print("There are ${noteAPI.numberOfActiveNotes()} active notes \n")
+    println(noteAPI.listActiveNotes())
+}
+
+fun listArchivedNotes(){
+    if(noteAPI.numberOfArchivedNotes()>0)
+        print("There are ${noteAPI.numberOfArchivedNotes()} archived notes \n")
+    println(noteAPI.listArchivedNotes())
+}
+
+fun listNotesByPriority(){
+    val selectedPriority = readNextInt("Enter priority: ")
+    if(noteAPI.numberOfNotesByPriority(selectedPriority)>0)
+        print("There are ${noteAPI.numberOfNotesByPriority(selectedPriority)} notes of priority $selectedPriority \n")
+    println(noteAPI.listNotesBySelectedPriority(selectedPriority))
+}
+
+fun listNotesByCategory(){
+    val category = readNextLine("Enter category: ")
+    if(noteAPI.numberOfNotesOfCategory(category)>0)
+        print("There are ${noteAPI.numberOfNotesOfCategory(category)} notes of category $category \n")
+    println(noteAPI.listNotesOfSelectedCategory(category))
 }
 
 fun updateNote(){
     //logger.info { "updateNote() function invoked" }
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes is not empty
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
@@ -99,7 +158,7 @@ fun updateNote(){
 
 fun deleteNote(){
     //logger.info { "addNote() function invoked" }
-    listNotes()
+    listAllNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes is not empty
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
