@@ -76,16 +76,12 @@ class NoteAPI(serializerType: Serializer){
                       .toInt()
     }
 
-    fun listNotesOfSelectedCategory(category: String) : String {
-        var listOfNotes = ""
-        for (i in notes.indices) {
-            if(notes[i].noteCategory == category)
-                listOfNotes += "${i}: ${notes[i]} \n"
-        }
-        return if (listOfNotes.isBlank()) {
-            "No notes of category $category"
-        } else listOfNotes
-    }
+    fun listNotesOfSelectedCategory(category: String) : String =
+        if  (notes.isEmpty()) "No notes stored"
+        else notes.filter { note: Note -> note.noteCategory.equals(category,true) }
+            .joinToString (separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString() }
+            .ifBlank {"Currently no notes in category: $category"}
+
 
     fun numberOfNotesOfCategory(category: String) : Int{
         return notes.stream()

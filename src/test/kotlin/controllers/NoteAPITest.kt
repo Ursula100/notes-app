@@ -199,9 +199,9 @@ class NoteAPITest {
             assertTrue(emptyNotes!!.listNotesBySelectedPriority(5).lowercase().contains("no notes stored"))
         }
         @Test
-        fun `ListNotesBySelectedPriority return No Notes Of Priority $priority when ArrayList has no notes of the specified priority stored`(){
+        fun `ListNotesBySelectedPriority return Currently No Notes Of Priority $priority when ArrayList has no notes of the specified priority stored`(){
             assertEquals(0, populatedNoPriority2Notes!!.numberOfNotesByPriority(2))
-            assertTrue(populatedNoPriority2Notes!!.listNotesBySelectedPriority(2).lowercase().contains("no notes of priority"))
+            assertTrue(populatedNoPriority2Notes!!.listNotesBySelectedPriority(2).lowercase() == "currently no notes of priority 2")
         }
 
         @Test
@@ -216,15 +216,15 @@ class NoteAPITest {
     @Nested
     inner class ListNotesOfCategory {
        @Test
-       fun `listNotesOfSelectedCategory returns No Note of Category $category when ArrayList has no notes stored` (){
+       fun `listNotesOfSelectedCategory returns No Notes Stored $category when ArrayList has no notes stored` (){
            assertEquals(0, emptyNotes!!.numberOfNotesOfCategory("Lessons"))
-           assertTrue(emptyNotes!!.listNotesOfSelectedCategory("Lessons").lowercase().contains("no notes of category"))
+           assertTrue(emptyNotes!!.listNotesOfSelectedCategory("Lessons").lowercase() == "no notes stored")
        }
 
         @Test
-        fun `listNotesBySelectedCategory return No Notes Of Category $category when ArrayList has no notes of the specified category stored`(){
+        fun `listNotesBySelectedCategory returns Currently No Notes Of Category $category when ArrayList has no notes of the specified category stored`(){
             assertEquals(0, populatedNotes!!.numberOfNotesOfCategory("Lab"))
-            assertTrue(populatedNotes!!.listNotesOfSelectedCategory("Lab").lowercase().contains("no notes of category"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedCategory("Lab").lowercase() == "currently no notes in category: lab")
         }
 
         @Test
