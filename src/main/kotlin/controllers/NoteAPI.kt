@@ -50,6 +50,7 @@ class NoteAPI(serializerType: Serializer){
             "Currently no active notes"
         } else listOfActiveNotes
     }
+
     fun numberOfActiveNotes(): Int {
         //helper method to determine how many active notes there are
         var numberOfActiveNotes = 0
@@ -157,6 +158,20 @@ class NoteAPI(serializerType: Serializer){
             foundNote.noteTitle = note.noteTitle
             foundNote.notePriority = note.notePriority
             foundNote.noteCategory = note.noteCategory
+            return true
+        }
+
+        //if the note was not found, return false, indicating that the update was not successful
+        return false
+    }
+
+    fun archiveNote(indexToArchive: Int): Boolean {
+        //find the note object using the index number
+        val noteToArchive = findNote(indexToArchive)
+
+        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+        if ((noteToArchive != null) && (!noteToArchive.isNoteArchived)) {
+            noteToArchive.isNoteArchived = true
             return true
         }
 
