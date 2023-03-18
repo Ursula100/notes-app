@@ -140,9 +140,9 @@ class NoteAPITest {
     @Nested
     inner class ListArchivedNotes {
         @Test
-        fun `listArchivedNotes returns No Archived Notes when ArrayList is empty`() {
+        fun `listArchivedNotes returns No Notes Stored when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfArchivedNotes())
-            assertTrue(emptyNotes!!.listArchivedNotes().lowercase().contains("no archived notes"))
+            assertTrue(emptyNotes!!.listArchivedNotes().lowercase().contains("no notes stored"))
         }
 
         @Test
