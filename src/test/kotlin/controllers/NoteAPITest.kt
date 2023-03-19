@@ -425,6 +425,29 @@ class NoteAPITest {
     }
 
     @Nested
+    inner class UnarchiveNotes {
+        @Test
+        fun `unarchiveNote returns false when note does not exist`(){
+            assertFalse(populatedNotes!!.archiveNote(9))
+            assertFalse(populatedNotes!!.archiveNote(-1))
+            assertFalse(emptyNotes!!.archiveNote(0))
+        }
+
+        @Test
+        fun `unarchiveNote returns true and unarchived an archived note`(){
+            assertTrue(populatedNotes!!.findNote(6)!!.isNoteArchived)
+            assertTrue(populatedNotes!!.unarchiveNote(6))
+            assertFalse(populatedNotes!!.findNote(6)!!.isNoteArchived)
+        }
+
+        @Test
+        fun `unarchiveNote returns false when note is already active `() {
+            assertFalse(populatedNotes!!.findNote(1)!!.isNoteArchived)
+            assertFalse(populatedNotes!!.unarchiveNote(1))
+        }
+    }
+
+    @Nested
     inner class CountingMethods {
 
         @Test
