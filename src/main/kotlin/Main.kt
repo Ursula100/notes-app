@@ -7,6 +7,9 @@ import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
+import utils.NoteFieldsValidation.getCategory
+import utils.NoteFieldsValidation.getPriority
+import utils.NoteFieldsValidation.getStatus
 
 private val logger = KotlinLogging.logger {}
 
@@ -67,7 +70,7 @@ fun runMenu() {
             20 -> save()
             21 -> load()
             0  -> exitApp()
-            else -> println("Invalid option entered: $option")
+            else -> println("Invalid option entered: $option \n")
         }
     } while (true)
 }
@@ -81,7 +84,7 @@ fun runSubMenu(){
             4  -> listNotesByPriority()
             5  -> listNotesByCategory()
             0  -> runMenu()
-            else -> println("Invalid option entered: $option")
+            else -> println("Invalid option entered: $option \n")
         }
     } while (true)
 }
@@ -89,16 +92,13 @@ fun runSubMenu(){
 fun addNote(){
     //logger.info { "addNote() function invoked" }
     val noteTitle = readNextLine("Enter a title for the note: ")
-    val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-    val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
-
-    if (isAdded) {
-        println("Added Successfully")
-    }
-    else {
-        println("Add Failed")
-    }
+    val notePriority = getPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+    val noteCategory = getCategory("Enter a category for the note as 'Home', 'College','Work','Hobby', or 'Family': ")
+    val noteContent = readNextLine("Enter note content: ")
+    val noteStatus: String = getStatus("Choose status as 'todo', 'on-going', or 'done'.")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, noteContent, noteStatus, false))
+    if (isAdded) println("Added Successfully\n")
+    else println("Add Failed\n")
 }
 fun listAllNotes(){
     //logger.info { "listNotes() function invoked" }
@@ -120,14 +120,14 @@ fun listArchivedNotes(){
 }
 
 fun listNotesByPriority(){
-    val selectedPriority = readNextInt("Enter priority: ")
+    val selectedPriority = getPriority("Enter priority: ")
     if(noteAPI.numberOfNotesByPriority(selectedPriority)>0)
         print("There are ${noteAPI.numberOfNotesByPriority(selectedPriority)} notes of priority $selectedPriority \n")
     println(noteAPI.listNotesBySelectedPriority(selectedPriority))
 }
 
 fun listNotesByCategory(){
-    val category = readNextLine("Enter category: ")
+    val category = getCategory("Enter category: ")
     if(noteAPI.numberOfNotesOfCategory(category)>0)
         print("There are ${noteAPI.numberOfNotesOfCategory(category)} notes of category $category \n")
     println(noteAPI.listNotesOfSelectedCategory(category))
@@ -141,20 +141,16 @@ fun updateNote(){
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
         if (noteAPI.isValidIndex(indexToUpdate)) {
             val noteTitle = readNextLine("Enter a title for the note: ")
-            val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-            val noteCategory = readNextLine("Enter a category for the note: ")
-
+            val notePriority = getPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            val noteCategory = getCategory("Enter a category for the note as 'Home', 'College','Work','Hobby', or 'Family': ")
+            val noteContent = readNextLine("Enter note content: ")
+            val noteStatus = getStatus("Enter a priority (Todo, On-going, Done): ")
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, noteContent, noteStatus, false)))
                 println("Update Successful")
-            }
-            else {
-                println("Update Failed")
-            }
+            else println("Update Failed")
         }
-        else {
-            println("There are no notes for this index number")
-        }
+        else println("There are no notes for this index number\n")
     }
 }
 
@@ -166,12 +162,8 @@ fun deleteNote(){
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
         //pass the index of the note to NoteAPI for deleting and check for success.
         val noteToDelete = noteAPI.deleteNote(indexToDelete)
-        if (noteToDelete != null) {
-            println("Delete Successful! Deleted note: ${noteToDelete.noteTitle}")
-        }
-        else {
-            println("Delete NOT Successful")
-        }
+        if (noteToDelete != null) println("Delete Successful! Deleted note: ${noteToDelete.noteTitle} \n")
+        else println("Delete NOT Successful \n")
     }
 }
 
@@ -180,16 +172,16 @@ fun archiveNote(){
     if(noteAPI.numberOfNotes() > 0){
         val indexToArchive = readNextInt("Enter the index of the note to archive: ")
         if(noteAPI.findNote(indexToArchive)==null)
-            println("Archive Unsuccessful - There is no note at index: $indexToArchive")
+            println("Archive Unsuccessful - There is no note at index: $indexToArchive \n")
         else {
             if(!noteAPI.findNote(indexToArchive)!!.isNoteArchived) {
                 if (noteAPI.archiveNote(indexToArchive))
                     println("Archive Successful! Archived note at index: $indexToArchive")
             }
-            else println("Archive Unsuccessful - note is already archived ")
+            else println("Archive Unsuccessful - note is already archived \n")
         }
     }
-    else println("There are no notes in store")
+    else println("There are no notes in store \n")
 }
 
 fun searchNoteByTitle(){
@@ -217,7 +209,7 @@ fun load() {
 }
 
 fun exitApp(){
-    println("Exiting...bye")
+    println("\n Exiting...bye")
     exit(0)
 }
 
