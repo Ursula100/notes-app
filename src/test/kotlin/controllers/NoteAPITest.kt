@@ -236,6 +236,28 @@ class NoteAPITest {
     }
 
     @Nested
+    inner class ListNotesOfStatus {
+        @Test
+        fun `listNotesOfSelectedStatus returns No Notes Stored $category when ArrayList has no notes stored` (){
+            assertEquals(0, emptyNotes!!.numberOfNotesOfStatus("done"))
+            assertTrue(emptyNotes!!.listNotesOfSelectedStatus("done").lowercase() == "no notes stored")
+        }
+
+        @Test
+        fun `listNotesOfSelectedStatus returns Currently No Notes Of Status $status when ArrayList has no notes of the specified status stored`(){
+            assertEquals(0, populatedNoActiveNotes!!.numberOfNotesOfStatus("todo"))
+            assertTrue(populatedNoActiveNotes!!.listNotesOfSelectedStatus("todo").lowercase() == "currently no notes in status: 'todo'")
+        }
+
+        @Test
+        fun `listNotesOfSelectedStatus returns notes of selected category when populated ArrayList contains notes of the specified category`(){
+            assertEquals(2, populatedNotes!!.numberOfNotesOfStatus("on-going"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedStatus("on-going").lowercase().contains("test archived"))
+            assertTrue(populatedNotes!!.listNotesOfSelectedStatus("on-going").lowercase().contains("test app"))
+        }
+    }
+
+    @Nested
     inner class SearchMethods {
         @Test
         fun `searchNoteByTitle returns No Notes Stored when ArrayList has no notes stored` () {
@@ -477,6 +499,14 @@ class NoteAPITest {
             assertEquals(2, populatedNotes!!.numberOfNotesByPriority(5))
             assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
         }
+
+        @Test
+        fun numberOfNotesByStatusCalculatedCorrectly() {
+            assertEquals(4, populatedNotes!!.numberOfNotesOfStatus("Todo"))
+            assertEquals(2, populatedNotes!!.numberOfNotesOfStatus("on-going"))
+            assertEquals(3, populatedNotes!!.numberOfNotesOfStatus("DonE"))
+        }
+
     }
 
 
