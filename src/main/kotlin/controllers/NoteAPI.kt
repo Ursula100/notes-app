@@ -114,9 +114,23 @@ class NoteAPI(serializerType: Serializer){
         //find the note object using the index number
         val noteToArchive = findNote(indexToArchive)
 
-        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
+        //if the note exists, and is not archived, use the note details passed as parameters to update the found note in the ArrayList.
         if ((noteToArchive != null) && (!noteToArchive.isNoteArchived)) {
             noteToArchive.isNoteArchived = true
+            return true
+        }
+
+        //if the note was not found, return false, indicating that the update was not successful
+        return false
+    }
+
+    fun unarchiveNote(indexToUnarchive: Int): Boolean {
+        //find the note object using the index number
+        val noteToUnarchive = findNote(indexToUnarchive)
+
+        //if the note exists, and is archived, use the note details passed as parameters to update the found note in the ArrayList.
+        if ((noteToUnarchive != null) && (noteToUnarchive.isNoteArchived)) {
+            noteToUnarchive.isNoteArchived = false
             return true
         }
 

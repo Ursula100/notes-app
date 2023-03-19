@@ -32,7 +32,8 @@ fun mainMenu() : Int {
          > |   3) Update a note             |
          > |   4) Delete a note             |
          > |   5) Archive a note            |
-         > |   6) Search for a note         |
+         > |   7) Search for a note         |
+         > |   8) Unarchive a note
          > ----------------------------------
          > |   20) Save notes               |
          > |   21) Load notes               |
@@ -67,6 +68,7 @@ fun runMenu() {
             4  -> deleteNote()
             5  -> archiveNote()
             6  -> searchNoteByTitle()
+            7  -> unarchiveNote()
             20 -> save()
             21 -> load()
             0  -> exitApp()
@@ -179,6 +181,23 @@ fun archiveNote(){
                     println("Archive Successful! Archived note at index: $indexToArchive")
             }
             else println("Archive Unsuccessful - note is already archived \n")
+        }
+    }
+    else println("There are no notes in store \n")
+}
+
+fun unarchiveNote(){
+    println(noteAPI.listActiveNotes())
+    if(noteAPI.numberOfNotes() > 0){
+        val indexToArchive = readNextInt("Enter the index of the note to unarchive: ")
+        if(noteAPI.findNote(indexToArchive)==null)
+            println("Unarchive Unsuccessful - There is no note at index: $indexToArchive \n")
+        else {
+            if(noteAPI.findNote(indexToArchive)!!.isNoteArchived) {
+                if (noteAPI.unarchiveNote(indexToArchive))
+                    println("Unarchive Successful! unarchived note at index: $indexToArchive")
+            }
+            else println("Unarchive Unsuccessful - note is not archived \n")
         }
     }
     else println("There are no notes in store \n")
