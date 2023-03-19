@@ -29,6 +29,7 @@ fun mainMenu() : Int {
          > |   3) Update a note             |
          > |   4) Delete a note             |
          > |   5) Archive a note            |
+         > |   6) Search for a note         |
          > ----------------------------------
          > |   20) Save notes               |
          > |   21) Load notes               |
@@ -62,6 +63,7 @@ fun runMenu() {
             3  -> updateNote()
             4  -> deleteNote()
             5  -> archiveNote()
+            6  -> searchNoteByTitle()
             20 -> save()
             21 -> load()
             0  -> exitApp()
@@ -189,6 +191,14 @@ fun archiveNote(){
     }
     else println("There are no notes in store")
 }
+
+fun searchNoteByTitle(){
+    val title = readNextLine("Enter title: ")
+    if(noteAPI.numberOfNotesOfTitle(title)>0)
+        print("There are ${noteAPI.numberOfNotesOfTitle(title)} notes with title: \'$title\' \n")
+    println(noteAPI.searchNotesByTitle(title))
+}
+
 
 fun save() {
     try {

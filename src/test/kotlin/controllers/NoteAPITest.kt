@@ -236,22 +236,29 @@ class NoteAPITest {
     }
 
     @Nested
-    inner class ListNotesOfTitle {
+    inner class SearchMethods {
         @Test
-        fun `listNotesOfTitle returns No Notes Stored when ArrayList has no notes stored` () {
+        fun `searchNoteByTitle returns No Notes Stored when ArrayList has no notes stored` () {
             assertEquals(0, emptyNotes!!.numberOfNotesOfTitle("Pet Puppy"))
-            assertTrue(emptyNotes!!.searchNotesByTitle("Pet Puppy").lowercase().contains("no notes stored"))
+            assertTrue(emptyNotes!!.searchNotesByTitle("Pet Puppy").lowercase() == "no notes stored")
         }
 
         @Test
-        fun `listNotesOfTitle returns Currently No Notes With Title $title when ArrayList has no notes of with specified title stored`(){
+        fun `searchNoteByTitle returns Currently No Notes With Title $title when ArrayList has no notes of with specified title stored`(){
             assertEquals(0, populatedNotes!!.numberOfNotesOfTitle("Titled Note"))
-            assertTrue(populatedNotes!!.searchNotesByTitle("Titled Note").lowercase().contains("currently no notes with title: \'titled note\'"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Titled Note").lowercase() == "currently no notes with title: \'titled note\'")
         }
 
         @Test
-        fun `listNotesOfTitle returns notes with specified title when populated ArrayList contains notes with specified title`(){
+        fun `searchNoteByTitle returns notes with specified title when populated ArrayList contains notes with specified title (case match)`(){
             assertEquals(2, populatedNotes!!.numberOfNotesOfTitle("Test Archived"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived"))
+            assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived 2"))
+        }
+
+        @Test
+        fun `searchNoteByTitle returns notes with specified title when populated ArrayList contains notes with specified title (case does not match)`(){
+            assertEquals(2, populatedNotes!!.numberOfNotesOfTitle("Test archIveD"))
             assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived"))
             assertTrue(populatedNotes!!.searchNotesByTitle("Test Archived").lowercase().contains("test archived 2"))
         }
