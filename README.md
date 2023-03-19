@@ -11,3 +11,4 @@ It has a menu and subMenu.
 - Junit tests for functionalities
 - CRUD methods
 - Data persistence: JSON and XML format.
+- Note fields entry verification using utils class object *NoteFieldsValidation.kt*
