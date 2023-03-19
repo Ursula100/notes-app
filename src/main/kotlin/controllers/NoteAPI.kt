@@ -87,6 +87,14 @@ class NoteAPI(serializerType: Serializer){
         } else null
     }
 
+    fun listNotesOfSelectedStatus(status: String) : String =
+        if  (notes.isEmpty()) "No notes stored"
+        else formatListString(notes.filter { note: Note -> note.noteStatus == status.lowercase() })
+            .ifBlank {"Currently no notes in status: '$status'"}
+
+    fun numberOfNotesOfStatus(status: String) : Int =
+        notes.count { note: Note -> note.noteStatus == status.lowercase() }
+
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
         val foundNote = findNote(indexToUpdate)

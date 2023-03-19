@@ -53,6 +53,7 @@ fun subMenu(): Int{
          > |   3) List archived notes       |
          > |   4) List notes by priority    |
          > |   5) List notes by category    |
+         > |   6) List notes by status      |
          > ----------------------------------
          > |   0) Back to main menu         |
          > ----------------------------------
@@ -85,6 +86,7 @@ fun runSubMenu(){
             3  -> listArchivedNotes()
             4  -> listNotesByPriority()
             5  -> listNotesByCategory()
+            6  -> listNotesByStatus()
             0  -> runMenu()
             else -> println("Invalid option entered: $option \n")
         }
@@ -97,7 +99,7 @@ fun addNote(){
     val notePriority = getPriority("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = getCategory("Enter a category for the note as 'Home', 'College','Work','Hobby', or 'Family': ")
     val noteContent = readNextLine("Enter note content: ")
-    val noteStatus: String = getStatus("Choose status as 'todo', 'on-going', or 'done'.")
+    val noteStatus: String = getStatus("Choose status as 'todo', 'on-going', or 'done':")
     val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, noteContent, noteStatus, false))
     if (isAdded) println("Added Successfully\n")
     else println("Add Failed\n")
@@ -133,6 +135,13 @@ fun listNotesByCategory(){
     if(noteAPI.numberOfNotesOfCategory(category)>0)
         print("There are ${noteAPI.numberOfNotesOfCategory(category)} notes of category $category \n")
     println(noteAPI.listNotesOfSelectedCategory(category))
+}
+
+fun listNotesByStatus(){
+    val status = getCategory("Enter status from 'todo', 'on-going', or 'done'.")
+    if(noteAPI.numberOfNotesOfStatus(status)>0)
+        print("There are ${noteAPI.numberOfNotesOfStatus(status)} '$status' notes. \n")
+    println(noteAPI.listNotesOfSelectedStatus(status))
 }
 
 fun updateNote(){
